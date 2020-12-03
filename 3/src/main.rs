@@ -7,7 +7,8 @@ fn slope_solver(input: &Vec<String>, right: usize, down: usize) -> u32 {
 
     let mut trees = 0;
     while row < input.len() {
-        if *input[row].as_bytes().get(col % (input[row].len())).unwrap() == b'#' {
+        if input[row].as_bytes()[col % (input[row].len())] == b'#'
+        {
             trees += 1;
         }
 
