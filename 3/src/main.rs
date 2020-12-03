@@ -30,7 +30,7 @@ fn main() -> Result<(), std::io::Error> {
     println!("Part 1: {}", trees);
 
     let slopes = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)];
-    let trees = slopes.iter().map(|e| { slope_solver(&input, e.0, e.1) }).fold(1, |a, v| a * v);
+    let trees = slopes.iter().map(|e| slope_solver(&input, e.0, e.1)).fold(1, |a, v| a * v);
     println!("Part 2: {}", trees);
 
     Ok(())
