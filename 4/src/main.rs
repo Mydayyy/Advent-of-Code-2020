@@ -224,6 +224,6 @@ fn main() -> Result<(), std::io::Error> {
     let valid2 = input.iter().filter(|x| x.is_valid_constraints()).count();
 
     println!("Part 1:  {}", valid1);
-    println!("Part 1:  {}", valid2);
+    println!("Part 2:  {}", valid2);
     Ok(())
 }
