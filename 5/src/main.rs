@@ -90,7 +90,8 @@ fn main() -> Result<(), std::io::Error> {
 
     for i in 0..highest {
         if i > 0 && !hm.contains_key(&i) && hm.contains_key(&(i - 1)) && hm.contains_key(&(i + 1)) {
-            println!("Part 2: {}", i)
+            println!("Part 2: {}", i);
+            break;
         }
     }
 
