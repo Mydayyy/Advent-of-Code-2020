@@ -13,7 +13,7 @@ fn main() -> Result<(), std::io::Error> {
     let part1: usize = input.iter().map(|x| x.split("").filter(|x| !x.is_empty() && x != &" ").unique().count()).sum();
     let part2: Vec<Vec<_>> = input.iter().map(|x| x.split(" ").collect()).collect();
 
-    println!("{}", part1);
+    println!("Part 1: {}", part1);
 
     let mut sum = 0;
     for group in part2 {
@@ -30,7 +30,7 @@ fn main() -> Result<(), std::io::Error> {
         sum += hm.into_iter().filter(|&(_, count)| count == person_count).count();
     }
 
-    println!("{}", sum);
+    println!("Part 2: {}", sum);
 
     Ok(())
 }
