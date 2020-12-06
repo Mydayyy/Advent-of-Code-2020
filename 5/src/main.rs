@@ -81,7 +81,7 @@ fn main() -> Result<(), std::io::Error> {
     let input: Vec<Seat> = reader.lines().filter_map(io::Result::ok).map(|x| Seat::new(x)).collect();
     // println!("{:?}", input);
 
-    let highest = input.iter().fold(0, |a: u32, v| if v.seat_id.unwrap() > a { v.seat_id.unwrap() } else { a });
+    let highest = input.iter().max_by_key(|seat| seat.seat_id.unwrap()).unwrap().seat_id.unwrap();
     let hm: HashMap<u32, &Seat> = HashMap::from_iter(input.iter().map(|x| (x.seat_id.unwrap(), x)));
 
 
