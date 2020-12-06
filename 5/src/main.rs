@@ -6,6 +6,19 @@ use std::fmt;
 use std::collections::HashMap;
 use std::iter::FromIterator;
 
+
+fn range_size(range: &Range<u32>) -> u32 {
+    return range.end - range.start;
+}
+
+fn upper_half(r: &Range<u32>) -> Range<u32> {
+    (r.start + range_size(r) / 2)..r.end
+}
+
+fn lower_half(r: &Range<u32>) -> Range<u32> {
+    r.start..(r.end - range_size(r) / 2)
+}
+
 fn get_row_column(desc: &str, row: Option<Range<u32>>, column: Option<Range<u32>>) -> (u32, u32) {
     let row: Range<u32> = match row {
         None => { 0..128 }
@@ -23,28 +36,16 @@ fn get_row_column(desc: &str, row: Option<Range<u32>>, column: Option<Range<u32>
 
     match desc.as_bytes()[0] {
         b'F' => {
-            let size = row.end - row.start;
-            let row = row.start..(row.end - size / 2);
-            // println!("row {:?}", row);
-            return get_row_column(&desc[1..], Some(row), Some(column));
+            return get_row_column(&desc[1..], Some(lower_half(&row)), Some(column));
         }
         b'B' => {
-            let size = row.end - row.start;
-            let row = (row.start + size / 2)..row.end;
-            // println!("row {:?}", row);
-            return get_row_column(&desc[1..], Some(row), Some(column));
+            return get_row_column(&desc[1..], Some(upper_half(&row)), Some(column));
         }
         b'R' => {
-            let size = column.end - column.start;
-            let column = (column.start + size / 2)..column.end;
-            // println!("column {:?}", column);
-            return get_row_column(&desc[1..], Some(row), Some(column));
+            return get_row_column(&desc[1..], Some(row), Some(upper_half(&column)));
         }
         b'L' => {
-            let size = column.end - column.start;
-            let column = column.start..(column.end - size / 2);
-            // println!("row {:?}", column);
-            return get_row_column(&desc[1..], Some(row), Some(column));
+            return get_row_column(&desc[1..], Some(row), Some(lower_half(&column)));
         }
         _ => {
             panic!("Invalid Seat String")
