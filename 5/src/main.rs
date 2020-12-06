@@ -1,7 +1,7 @@
 use std::fs::File;
 use std::io::{self, prelude::*, BufReader};
 use std::ops::Range;
-use std::fmt::{Debug, Formatter};
+use std::fmt::{Formatter};
 use std::fmt;
 use std::collections::HashMap;
 use std::iter::FromIterator;
@@ -25,37 +25,34 @@ fn get_row_column(desc: &str, row: Option<Range<u32>>, column: Option<Range<u32>
         b'F' => {
             let size = row.end - row.start;
             let row = row.start..(row.end - size / 2);
-            println!("row {:?}", row);
+            // println!("row {:?}", row);
             return get_row_column(&desc[1..], Some(row), Some(column));
         }
         b'B' => {
             let size = row.end - row.start;
             let row = (row.start + size / 2)..row.end;
-            println!("row {:?}", row);
+            // println!("row {:?}", row);
             return get_row_column(&desc[1..], Some(row), Some(column));
         }
         b'R' => {
             let size = column.end - column.start;
             let column = (column.start + size / 2)..column.end;
-            println!("column {:?}", column);
+            // println!("column {:?}", column);
             return get_row_column(&desc[1..], Some(row), Some(column));
         }
         b'L' => {
             let size = column.end - column.start;
             let column = column.start..(column.end - size / 2);
-            println!("row {:?}", column);
+            // println!("row {:?}", column);
             return get_row_column(&desc[1..], Some(row), Some(column));
         }
         _ => {
             panic!("Invalid Seat String")
         }
     };
-
-    (0, 0)
 }
 
 struct Seat {
-    data: String,
     row: Option<u32>,
     column: Option<u32>,
     seat_id: Option<u32>,
@@ -65,7 +62,6 @@ impl Seat {
     fn new(data: String) -> Seat {
         let seating = get_row_column(&data, None, None);
         Seat {
-            data,
             row: Some(seating.0),
             column: Some(seating.1),
             seat_id: Some(seating.0 * 8 + seating.1),
