@@ -25,13 +25,24 @@ fn contains_shiny_gold(bags: &HashMap<String, HashMap<String, u32>>, name: &str)
 
     let mut found = false;
     for (idx, val) in bags.get(name).unwrap() {
-
-
         found = found || contains_shiny_gold(bags, idx);
     }
 
     return found;
 }
+
+fn count_bags(bags: &HashMap<String, HashMap<String, u32>>, name: &str) -> u32 {
+    if !bags.contains_key(name) {
+        return 0;
+    }
+
+    let mut count = 0;
+    for (idx, val) in bags.get(name).unwrap() {
+        count = count + val * count_bags(bags, idx) + val;
+    }
+    return count;
+}
+
 
 fn main() -> Result<(), std::io::Error> {
     let file = File::open("input")?;
@@ -60,26 +71,20 @@ fn main() -> Result<(), std::io::Error> {
             Bag.insert(cap_name.to_string(), cap_count);
         }
         Bags.insert(name, Bag);
-
-
-        // println!("{:?}", cap_count);
     }
-
-    println!("{:?}", contains_shiny_gold(&Bags, "shiny gold"));
-
-
 
     let mut count = 0;
     for (idx, val) in &Bags {
         if idx == "shiny gold" {
-            continue
+            continue;
         }
         if contains_shiny_gold(&Bags, &idx) {
             count += 1;
         }
     }
 
-    println!("{:?}", count);
+    println!("Part 1: {}", count);
+    println!("Part 2: {}", count_bags(&Bags, "shiny gold"));
 
     Ok(())
 }
